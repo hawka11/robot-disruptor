@@ -12,7 +12,8 @@ data class RobotEvent(
         var type: RobotEventType = RobotEventType.UNKNOWN,
         var coordinateX: Int = -1,
         var coordinateY: Int = -1,
-        var direction: Direction = Direction.UNKNOWN
+        var direction: Direction = Direction.UNKNOWN,
+        var createdAt: Long = 0
 ) {
 
     fun clear() {
@@ -20,6 +21,7 @@ data class RobotEvent(
         coordinateX = -1
         coordinateY = -1
         direction = Direction.UNKNOWN
+        createdAt = 0
     }
 }
 

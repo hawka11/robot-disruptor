@@ -32,6 +32,8 @@ class MockQueueReader: QueueReader {
             direction == Direction.SOUTH -> simulateMoveDownMsg(bb)
         }
 
+        bb.putLong(16, System.nanoTime())
+
         count++
     }
 

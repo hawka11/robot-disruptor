@@ -15,8 +15,6 @@ class RobotEventHandler : EventHandler<RobotEvent> {
 
     override fun onEvent(event: RobotEvent, sequence: Long, endOfBatch: Boolean) {
 
-        val start = System.nanoTime()
-
         when (event.type) {
             RobotEventType.INIT -> handleInitType(event, grid)
             RobotEventType.PLACE -> handlePlaceType(event, grid, robot)
@@ -28,6 +26,6 @@ class RobotEventHandler : EventHandler<RobotEvent> {
         }
 
         throughput.mark()
-        //latency.update(System.nanoTime() - start)
+        //latency.update(System.nanoTime() - event.createdAt)
     }
 }

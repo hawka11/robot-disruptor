@@ -42,7 +42,7 @@ fun main(args: Array<String>) {
 
     val queue: QueueReader = MockQueueReader()
 
-    val bb = ByteBuffer.allocate(4 + 4 + 4 + 4)
+    val bb = ByteBuffer.allocate(4 + 4 + 4 + 4 + 8)
 
     while (true) {
 

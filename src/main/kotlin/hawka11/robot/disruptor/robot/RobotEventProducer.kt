@@ -17,6 +17,7 @@ class RobotEventProducerWithTranslator(private val ringBuffer: RingBuffer<RobotE
             event.coordinateX = bb.getInt(4)
             event.coordinateY = bb.getInt(8)
             event.direction = Direction.fromIndex(bb.getInt(12))
+            event.createdAt = bb.getLong(16)
         }
 
         fun initialize(bb: ByteBuffer) {
@@ -24,6 +25,7 @@ class RobotEventProducerWithTranslator(private val ringBuffer: RingBuffer<RobotE
             bb.putInt(4, -1)
             bb.putInt(8, -1)
             bb.putInt(12, Direction.UNKNOWN.ordinal)
+            bb.putLong(16, 0L)
         }
     }
 }
