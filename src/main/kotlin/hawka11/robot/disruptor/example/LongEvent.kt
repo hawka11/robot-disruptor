@@ -4,6 +4,7 @@ import com.lmax.disruptor.EventFactory
 import com.lmax.disruptor.EventHandler
 import com.lmax.disruptor.EventTranslatorOneArg
 import com.lmax.disruptor.RingBuffer
+import hawka11.robot.disruptor.robot.game.Metrics
 import java.nio.ByteBuffer
 
 data class LongEvent(var value: Long = 0)
@@ -14,17 +15,10 @@ class LongEventFactory : EventFactory<LongEvent> {
 
 class LongEventHandler : EventHandler<LongEvent> {
 
-    private var count: Long = 0
-    private var total: Long = 0
+    private val throughput = Metrics.REGISTRY.meter("throughput")
 
     override fun onEvent(event: LongEvent, sequence: Long, endOfBatch: Boolean) {
-        val latency = System.nanoTime() - event.value
-        total += latency
-        count += 1
-
-        if (sequence % 20 == 0L) {
-            println("${Thread.currentThread()}: Event $event: $latency : ${total / count}")
-        }
+        throughput.mark()
     }
 }
 

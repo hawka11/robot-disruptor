@@ -1,0 +1,3 @@
+metrics:
+  shouldCaptureThroughput: false
+  shouldCaptureLatency: false

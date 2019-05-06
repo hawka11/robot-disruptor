@@ -1,14 +1,15 @@
 package hawka11.robot.disruptor.robot.handlers
 
+import com.lmax.disruptor.EventHandler
+import hawka11.robot.disruptor.robot.Metics
 import hawka11.robot.disruptor.robot.RobotEvent
 import hawka11.robot.disruptor.robot.RobotEventType
 import hawka11.robot.disruptor.robot.game.*
-import com.lmax.disruptor.EventHandler
 
 private val throughput = Metrics.REGISTRY.meter("throughput")
 private val latency = Metrics.REGISTRY.histogram("latency")
 
-class RobotEventHandler : EventHandler<RobotEvent> {
+class RobotEventHandler(private val metrics: Metics) : EventHandler<RobotEvent> {
 
     private val robot = Robot()
     private val grid = Grid()
@@ -25,7 +26,8 @@ class RobotEventHandler : EventHandler<RobotEvent> {
             RobotEventType.UNKNOWN -> handlePrintCmd(robot)
         }
 
-        throughput.mark()
-        //latency.update(System.nanoTime() - event.createdAt)
+        if (metrics.shouldCaptureThroughput) throughput.mark()
+
+        if (metrics.shouldCaptureLatency) latency.update(System.nanoTime() - event.createdAt)
     }
 }

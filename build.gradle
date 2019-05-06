@@ -19,5 +19,7 @@ repositories {
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     compile 'io.dropwizard.metrics:metrics-core:4.0.0'
+    compile "io.dropwizard:dropwizard-configuration:2.0.0-rc1"
+    compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.+"
     compile "com.lmax:disruptor:3.4.2"
 }
