@@ -50,8 +50,10 @@ fun main(args: Array<String>) {
 
         RobotEventProducerWithTranslator.initialize(bb)
 
+        //load next message from 'queue'
         queue.nextMessage(bb)
 
+        //publish message into disruptor (ring buffer)
         producer.onData(bb)
     }
 }
