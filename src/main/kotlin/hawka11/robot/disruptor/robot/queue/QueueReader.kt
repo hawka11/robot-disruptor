@@ -1,5 +1,6 @@
 package hawka11.robot.disruptor.robot.queue
 
+import hawka11.robot.disruptor.robot.ApplicationConfig
 import hawka11.robot.disruptor.robot.RobotEventType
 import hawka11.robot.disruptor.robot.game.Direction
 import java.nio.ByteBuffer
@@ -10,7 +11,7 @@ interface QueueReader {
 }
 
 
-class MockQueueReader: QueueReader {
+class MockQueueReader(private val config: ApplicationConfig) : QueueReader {
 
     private var isInit = false
     private var isPlaced = false
@@ -19,13 +20,13 @@ class MockQueueReader: QueueReader {
     private var y = 0
 
     private var count = 0L
-    private var printEvery = 100L
+    private var printEvery = 1000000L
 
     override fun nextMessage(bb: ByteBuffer) {
         when {
             !isInit -> simulateInitMsg(bb)
             !isPlaced -> simulatePlaceMsg(bb)
-            //count % printEvery  == 0L -> simulatePrintMsg(bb)
+            config.shouldPrintPosition && count % printEvery  == 0L -> simulatePrintMsg(bb)
             direction == Direction.EAST -> simulateMoveRightMsg(bb)
             direction == Direction.NORTH -> simulateMoveUpMsg(bb)
             direction == Direction.WEST -> simulateMoveLeftMsg(bb)

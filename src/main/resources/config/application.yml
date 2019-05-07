@@ -1,3 +1,5 @@
+shouldPrintPosition: false
+
 metrics:
   shouldCaptureThroughput: false
   shouldCaptureLatency: false

@@ -9,7 +9,6 @@ import hawka11.robot.disruptor.robot.handlers.RobotClearEventHandler
 import hawka11.robot.disruptor.robot.handlers.RobotEventHandler
 import hawka11.robot.disruptor.robot.queue.MockQueueReader
 import hawka11.robot.disruptor.robot.queue.QueueReader
-import java.nio.ByteBuffer
 
 fun main(args: Array<String>) {
 
@@ -40,15 +39,15 @@ fun main(args: Array<String>) {
     // Get the ring buffer from the Disruptor to be used for publishing.
     val ringBuffer = disruptor.ringBuffer
 
-    val producer = RobotEventProducerWithTranslator(ringBuffer)
+    val producer = RobotEventProducer(ringBuffer)
 
-    val queue: QueueReader = MockQueueReader()
+    val queue: QueueReader = MockQueueReader(config)
 
-    val bb = ByteBuffer.allocate(4 + 4 + 4 + 4 + 8)
+    val bb = RobotEventTranslator.allocate()
 
     while (true) {
 
-        RobotEventProducerWithTranslator.initialize(bb)
+        RobotEventTranslator.initialize(bb)
 
         //load next message from 'queue'
         queue.nextMessage(bb)
