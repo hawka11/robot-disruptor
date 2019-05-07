@@ -14,19 +14,7 @@ fun main(args: Array<String>) {
 
     val config = loadConfiguration("config/application.yml")
 
-    // The factory for the event
-    val factory = RobotEventFactory()
-
-    // Specify the size of the ring buffer, must be power of 2.
-    val bufferSize = 1024 * 64
-
-    // Construct the Disruptor
-    val disruptor = Disruptor(factory,
-            bufferSize,
-            DaemonThreadFactory.INSTANCE,
-            ProducerType.SINGLE,
-            BusySpinWaitStrategy()
-    )
+    val disruptor = constructDisruptor()
 
     // Connect the handler(s)
     disruptor
@@ -55,4 +43,20 @@ fun main(args: Array<String>) {
         //publish message into disruptor (ring buffer)
         producer.onData(bb)
     }
+}
+
+private fun constructDisruptor(): Disruptor<RobotEvent> {
+    // The factory for the event
+    val factory = RobotEventFactory()
+
+    // Specify the size of the ring buffer, must be power of 2.
+    val bufferSize = 1024 * 64
+
+    // Construct the Disruptor
+    return Disruptor<RobotEvent>(factory,
+            bufferSize,
+            DaemonThreadFactory.INSTANCE,
+            ProducerType.SINGLE,
+            BusySpinWaitStrategy()
+    )
 }
