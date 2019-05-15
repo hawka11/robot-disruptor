@@ -7,7 +7,7 @@ in pure kotlin.
 
 This is a low latency / high thoughput example with minimal JVM object allocation (no garbage)
 
-#Implementation Details
+# Implementation Details
 
 Code can be found [here](./src/main/kotlin/hawka11/robot/disruptor/robot)
 
@@ -23,11 +23,11 @@ There is no object serialisation library / real queue, just direct byte buffer a
 
 To capture metrics / print position, turn these in [application.yml](./src/main/resources/config/application.yml)
 
-#Performance
+# Performance
 
-On my local 2017 MBP (2.9 GHz Intel Core i7, 16GB RAM) it can process around 10million msg/p/s with a latency of around 100 microseconds 
+On my 2017 MBP (2.9 GHz Intel Core i7, 16GB RAM) it can process around 10million msg p/s with a latency of around 100 microseconds 
 
-##Dump Heap
+## Dump Heap
 jmap -dump:format=b,file=<file-path> <pid> 
 where
 pid: is the Java Process Id, whose heap dump should be captured
